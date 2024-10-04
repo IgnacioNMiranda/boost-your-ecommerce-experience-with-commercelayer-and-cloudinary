@@ -1,0 +1,17 @@
+.page {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  min-height: 100svh;
+  gap: 64px;
+  font-family: var(--font-geist-sans);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer {
+  display: flex;
+}
