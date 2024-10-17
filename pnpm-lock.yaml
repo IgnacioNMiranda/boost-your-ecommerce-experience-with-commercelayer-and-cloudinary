@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@commercelayer/js-auth':
+        specifier: 6.6.1
+        version: 6.6.1
+      '@commercelayer/sdk':
+        specifier: 6.23.0
+        version: 6.23.0
       contentful:
         specifier: 11.1.4
         version: 11.1.4
@@ -47,6 +53,14 @@ importers:
         version: 3.3.3
 
 packages:
+
+  '@commercelayer/js-auth@6.6.1':
+    resolution: {integrity: sha512-r0Aa7poj8Dfd0JPJwLR/MaZchAhTVW8/6Qx2yDC36CcP/G5Am/DCNZiLoDcnbxObjCB6JJvEbkDnFamHcM/c3Q==}
+    engines: {node: '>=18.0.0'}
+
+  '@commercelayer/sdk@6.23.0':
+    resolution: {integrity: sha512-S2rMXVd+daY4DjAMvKKhp6U0Hu+C+Yb1wN3V/I8Z9Sl27fziMI0621LSeVBGQNh9tFMCa46spV2PCHFr4dSsHw==}
+    engines: {node: '>=20'}
 
   '@contentful/content-source-maps@0.11.5':
     resolution: {integrity: sha512-ZFFboz9N/AN0zp+0C3/qwJEjlYkzEWxhlRTFHZ9GKs7Zd52GOWineN9qraYI9SxTAh5j/dlPGqHOnT9kyeVKgQ==}
@@ -1596,6 +1610,10 @@ packages:
     engines: {node: '>=10'}
 
 snapshots:
+
+  '@commercelayer/js-auth@6.6.1': {}
+
+  '@commercelayer/sdk@6.23.0': {}
 
   '@contentful/content-source-maps@0.11.5':
     dependencies:
