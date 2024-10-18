@@ -21,12 +21,22 @@ export default async function PDP({ params }) {
           <h2>SKUS</h2>
           <div style={{ display: 'flex', gap: 16, flexDirection: 'column' }}>
             {skusData.map((sku, idx) => (
-              <div key={sku.code} style={{ display: 'flex', gap: 4, alignItems: 'center', flexWrap: 'wrap' }}>
+              <div key={sku.code} style={{ display: 'flex', gap: 4, flexDirection: 'column', flexWrap: 'wrap' }}>
                 <p>{sku.code}</p>
-                <p>{sku.name}</p>
-                <p>Price: {sku.prices[0].formatted_amount}</p>
-                <p>Original Price: {sku.prices[0].formatted_compare_at_amount}</p>
-                <p>Available Stock: {sku.stock_items[0].quantity}</p>
+                <div style={{ marginLeft: 16 }}>
+                  <p>{sku.name}</p>
+                  <p>Price: {sku.prices[0].formatted_amount}</p>
+                  <p>Original Price: {sku.prices[0].formatted_compare_at_amount}</p>
+                  <p>Available Stock: {sku.stock_items[0].quantity}</p>
+                  {!!product.fields.variants[idx].fields.attributes?.length && (
+                    <p>
+                      Attributes:{' '}
+                      {product.fields.variants[idx].fields.attributes
+                        ?.map((att) => `${att.fields.label}:${att.fields.value}`)
+                        .join(', ')}
+                    </p>
+                  )}
+                </div>
 
                 {/* We assume 0 here to use the first available image */}
                 {images[idx]?.[0] && (
