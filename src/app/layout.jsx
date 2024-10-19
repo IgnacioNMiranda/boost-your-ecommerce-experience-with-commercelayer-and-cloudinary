@@ -14,7 +14,7 @@ const geistMono = localFont({
 })
 
 export const metadata = {
-  title: 'PDP Contentful App',
+  title: 'Product Details Page',
   description: 'Ecommerce PDP',
 }
 
