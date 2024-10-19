@@ -1,0 +1,69 @@
+.main-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+@media (min-width: 1024px) {
+  .main-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .main-grid {
+    gap: 7rem;
+  }
+}
+
+.add-to-cart-button {
+  margin-top: 16px;
+  width: 100%;
+  background-color: #fcece6;
+  border: 0;
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.05));
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.add-to-cart-button:hover {
+  cursor: pointer;
+  background-color: #fae1d7;
+}
+
+.container {
+  width: 100%;
+  max-width: 96rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin: 0 auto;
+}
+@media (min-width: 768px) {
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  .container {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+}
+@media (min-width: 1236px) {
+  .container {
+    padding-left: 6rem;
+    padding-right: 6rem;
+  }
+}
+@media (min-width: 1536px) {
+  .container {
+    padding-left: 8rem;
+    padding-right: 8rem;
+  }
+}

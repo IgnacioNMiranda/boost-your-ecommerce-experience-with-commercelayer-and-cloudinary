@@ -2,7 +2,7 @@ import { getProduct } from '../../../services/contentful'
 import { getSkus } from '../../../services/commercelayer'
 import { cookies } from 'next/headers'
 import { getImagesByTag } from '../../../services/cloudinary'
-import Image from 'next/image'
+import { ProductDetailsPage } from '../../../components/product-details-page'
 
 export default async function PDP({ params }) {
   const product = await getProduct(params.slug)
@@ -10,52 +10,31 @@ export default async function PDP({ params }) {
 
   const skuCodes = product.fields.variants.map((variant) => variant.fields.sku)
   const skusData = await getSkus(authToken.value, skuCodes)
-  const images = await Promise.all(skusData.map((sku) => getImagesByTag(sku.code)))
+  const imagesData = await Promise.all(skusData.map((sku) => getImagesByTag(sku.code)))
 
-  return (
-    <div>
-      <main style={{ padding: 20 }}>
-        <h1>{product.fields.name}</h1>
-        <p>Brand: {product.fields.brand}</p>
-        <section style={{ marginTop: 20 }}>
-          <h2>SKUS</h2>
-          <div style={{ display: 'flex', gap: 16, flexDirection: 'column' }}>
-            {skusData.map((sku, idx) => (
-              <div key={sku.code} style={{ display: 'flex', gap: 4, flexDirection: 'column', flexWrap: 'wrap' }}>
-                <p>{sku.code}</p>
-                <div style={{ marginLeft: 16 }}>
-                  <p>{sku.name}</p>
-                  <p>Price: {sku.prices[0].formatted_amount}</p>
-                  <p>Original Price: {sku.prices[0].formatted_compare_at_amount}</p>
-                  <p>Available Stock: {sku.stock_items[0].quantity}</p>
-                  {!!product.fields.variants[idx].fields.attributes?.length && (
-                    <p>
-                      Attributes:{' '}
-                      {product.fields.variants[idx].fields.attributes
-                        ?.map((att) => `${att.fields.label}:${att.fields.value}`)
-                        .join(', ')}
-                    </p>
-                  )}
-                </div>
+  const productData = {
+    name: product.fields.name,
+    brand: product.fields.brand,
+    variants: product.fields.variants
+      .map((variant) => {
+        const commerceLayerSku = skusData.find((skuData) => skuData.code === variant.fields.sku)
+        // For the use case we ignore variants that don't have data in Commercelayer
+        if (!commerceLayerSku) return undefined
 
-                {/* We assume 0 here to use the first available image */}
-                {images[idx]?.[0] && (
-                  <div style={{ position: 'relative', width: 150, height: 100 }}>
-                    <Image
-                      src={images[idx][0]}
-                      alt={sku.name}
-                      fill
-                      style={{
-                        objectFit: 'contain',
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
-      </main>
-    </div>
-  )
+        const skuImages = imagesData.find((imgData) => imgData.tag === variant.fields.sku)
+
+        return {
+          sku: variant.fields.sku,
+          name: commerceLayerSku.name,
+          price: commerceLayerSku.prices?.[0].formatted_amount,
+          originalPrice: commerceLayerSku.prices?.[0].formatted_compare_at_amount,
+          stock: commerceLayerSku.stock_items?.[0].quantity ?? 0,
+          images: skuImages?.images ?? [],
+          attributes: variant.fields.attributes.map((att) => ({ label: att.fields.label, value: att.fields.value })),
+        }
+      })
+      .filter(Boolean),
+  }
+
+  return <ProductDetailsPage productData={productData} />
 }
