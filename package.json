@@ -1,6 +1,6 @@
 {
   "name": "boost-your-ecommerce-experience-with-commercelayer-and-cloudinary",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

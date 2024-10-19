@@ -3,13 +3,18 @@ import { getSkus } from '../../../services/commercelayer'
 import { cookies } from 'next/headers'
 import { getImagesByTag } from '../../../services/cloudinary'
 import { ProductDetailsPage } from '../../../components/product-details-page'
+import { notFound } from 'next/navigation'
 
 export default async function PDP({ params }) {
   const product = await getProduct(params.slug)
+  if (!product) return notFound()
+
   const authToken = cookies().get('ecommerce-token')
 
   const skuCodes = product.fields.variants.map((variant) => variant.fields.sku)
   const skusData = await getSkus(authToken.value, skuCodes)
+  if (!skusData?.length) return notFound()
+
   const imagesData = await Promise.all(skusData.map((sku) => getImagesByTag(sku.code)))
 
   const productData = {
